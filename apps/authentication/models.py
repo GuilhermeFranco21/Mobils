@@ -34,6 +34,47 @@ class Users(db.Model, UserMixin):
 
     def __repr__(self):
         return str(self.username)
+    
+
+class PaymentMethods(db.Model):
+
+    __tablename__ = 'Payment_Methods'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    description = db.Column(db.String(150), unique=True)
+    
+    def __repr__(self):
+        return str(self.description)
+    
+
+class Debts(db.Model):
+    
+    __tablename__ = 'Debts'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    creditor = db.Column(db.String(150))
+    amount = db.Column(db.Integer)
+    description = db.Column(db.String(150))
+    id_payment_methods = db.Column(db.Integer, db.ForeignKey(PaymentMethods.id))
+    number_installments = db.Column(db.String(60))
+    installment_value = db.Column(db.Float)
+    initial_date = db.Column(db.Date)
+    final_date = db.Column(db.Date)
+    pay = db.Column(db.Boolean)
+    
+    
+    def __repr__(self):
+        return str(self.description)
+
+class DebtInstallment(db.Model):
+    
+    __tablename__ = 'Debt_Installment'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    id_debt = db.Column(db.Integer, db.ForeignKey(Debts.id))
+    installment_value = db.Column(db.Float)
+    payment_date = db.Column(db.Date)
+    installment_number = db.Column(db.Integer)
 
 
 @login_manager.user_loader
