@@ -30,17 +30,18 @@
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header">
-                  <h3 class="card-title">Cadastrar Forma de Pagamento</h3>
+                  <h3 class="card-title">Editar Forma de Pagamento</h3>
                 </div>
                 <!-- /.card-header -->
                 
                 <!-- form start -->
-                <form class="form-horizontal" method="POST" action="/registerPayMethod">
+                <form class="form-horizontal" method="POST" action="/updatePayMethod">
                   <div class="card-body">
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Descrição</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="inputDescricao" name="inputDescription" placeholder="Descricao">
+                        <input type="hidden" name="id" value="{{ payment.id }}">
+                        <input type="text" class="form-control" id="inputDescricao" name="inputDescription" placeholder="Descricao" value="{{ payment.description }}">
                       </div>
                     </div>
                   </div>
