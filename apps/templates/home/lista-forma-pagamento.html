@@ -49,19 +49,24 @@
             </thead>
             <!--Corpo da tabela-->
             <tbody>
+              {%for iten in list%}
               <tr>
-                <td>Cartão de Crédito</td>
+                <td>{{ iten.description }}</td>
                 <td style="display: flex; flex-direction: row-reverse;">
                   <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>
+                    <a href="/deletarFormaPagamento/{{ iten.id }}">
+                      <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>
+                    </a>
                   </div>
 
                   <div class="col-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-success">Editar</button>
+                    <a href="/editarFormaPagamento/{{ iten.id }}">
+                      <button type="submit" class="btn btn-primary btn-block btn-success">Editar</button>
+                    </a>
                   </div>
                 </td>
               </tr>
-
+              {% endfor %}
             </tbody>
           </table>
         </div>
