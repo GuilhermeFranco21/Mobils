@@ -38,13 +38,15 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">
+            <!--<a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">-->
+            <a href="/index2.html" class="nav-link {% if 'index2.html' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
+                <!--<i class="right fas fa-angle-left"></i>-->
               </p>
             </a>
+            <!--
             <ul class="nav nav-treeview">
               <li class="nav-item">
                 <a href="/index.html" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
@@ -65,7 +67,29 @@
                 </a>
               </li>
             </ul>
+            -->
           </li>
+
+          <li class="nav-item has-treeview {% if 'forma-pagamento' in segment %} menu-open {% endif %}">
+            <!--<a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">-->
+            <a href="/forma-pagamento.html" class="nav-link {% if 'forma-pagamento.html' in segment %} active {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Forma de Pagamento
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item has-treeview {% if 'forma-pagamento' in segment %} menu-open {% endif %}">
+            <!--<a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">-->
+            <a href="/lista-forma-pagamento.html" class="nav-link {% if 'lista-forma-pagamento.html' in segment %} active {% endif %}">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                Lista formas
+              </p>
+            </a>
+          </li>
+
           <li class="nav-item">
             <a href="widgets.html" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>

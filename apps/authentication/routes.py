@@ -57,6 +57,7 @@ def login():
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     create_account_form = CreateAccountForm(request.form)
+    print("Request Form: ", request.form)
     if 'register' in request.form:
 
         username = request.form['username']
@@ -96,6 +97,7 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
+
 
 
 # Errors
