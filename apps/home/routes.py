@@ -20,6 +20,11 @@ def index():
     return render_template('home/index2.html', segment='index')
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
+@blueprint.route('/CadastrarFormaPagamento')
+@login_required
+def createPayment():
+    return render_template("home/forma-pagamento.html")
+
 @blueprint.route('/registerPayMethod', methods=["POST",])
 @login_required
 def registerPayment():
