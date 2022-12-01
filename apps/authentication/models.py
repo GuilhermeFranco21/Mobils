@@ -44,7 +44,7 @@ class PaymentMethods(db.Model):
     description = db.Column(db.String(150), unique=True)
     
     def __repr__(self):
-        return str(self.description)
+        return str(self.id)
     
 
 class Debts(db.Model):
@@ -53,7 +53,7 @@ class Debts(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     creditor = db.Column(db.String(150))
-    amount = db.Column(db.Integer)
+    amount = db.Column(db.Float)
     description = db.Column(db.String(150))
     id_payment_methods = db.Column(db.Integer, db.ForeignKey(PaymentMethods.id))
     number_installments = db.Column(db.String(60))
