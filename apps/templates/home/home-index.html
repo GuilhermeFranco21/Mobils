@@ -1,0 +1,223 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard - Gerenciador de dividas {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="/static/assets/plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="/static/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="/static/assets/css/adminlte.min.css">
+
+{% endblock stylesheets %}
+
+{% block content %}  
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Dashboard - Gerenciador de Dividas</h1>
+          </div><!-- /.col -->
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dashboard</li>
+            </ol>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Info boxes -->
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+              <span class="info-box-icon bg-info "><i class="fas fa-credit-card"></i></span>
+              <div class="info-box-content">
+                <span class="info-box-text">Valor Total de Dividas</span>
+                <span class="info-box-number">
+                  <small>R$</small>
+                  100.000,00
+                  <small></small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+          </div>
+
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-copy"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Quantidade de dividas</span>
+                <span class="info-box-number">28</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+
+          <!-- fix for small devices only -->
+          <div class="clearfix hidden-md-up"></div>
+
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-success elevation-1"><i class="fas fa-check"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Valor total pago</span>
+                <span class="info-box-number">
+                  <small>R$</small>
+                    50.000,00
+                  <small></small>
+                </span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+              <span class="info-box-icon bg-danger elevation-1"><i class="icon fas fa-info"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Valor de Contas Não Pagas</span>
+                <span class="info-box-number">2,000</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="card-title">Ultimas adicionados</h5>
+
+                <div class="card-tools">
+                  <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                      <i class="fas fa-wrench"></i>
+                    </button>
+                    <!--<div class="dropdown-menu dropdown-menu-right" role="menu">
+                      <a href="#" class="dropdown-item">Action</a>
+                      <a href="#" class="dropdown-item">Another action</a>
+                      <a href="#" class="dropdown-item">Something else here</a>
+                      <a class="dropdown-divider"></a>
+                      <a href="#" class="dropdown-item">Separated link</a>
+                    </div>-->
+                  </div>
+                  <button type="button" class="btn btn-tool" data-card-widget="remove">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                <div class="row">
+                  
+
+                  <!-- /.row -->
+                  <div class="row w-100 p-3">
+                    <div class="col-12">
+                    <h3 class="col-sm-10">Historico</h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nome Credor</th>
+                                <th>Quantidade de Parcelas</th>
+                                <th>Data Contratação/Finalização</th>
+                                <th>Status</th>
+                                <th class="col-2">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>001</td>
+                            <td>R$500,00</td>
+                            <td>10 / 20 Parcelas</td>
+                            <td>11/7/2023</td>
+                            <td>Em dia</td>
+                            <td>
+                              <div class="col-12">
+                                  <div class="btn btn-primary btn-block btn-success">Visualizar</div>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+              </div>
+              <!-- ./card-body -->
+            </div>
+          </div>
+          <!-- /.col -->
+        </div>
+
+      </div>
+    </div>    
+  </div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+  <!-- REQUIRED SCRIPTS -->
+  <!-- jQuery -->
+  <script src="/static/assets/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap -->
+  <script src="/static/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- overlayScrollbars -->
+  <script src="/static/assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="/static/assets/js/adminlte.js"></script>
+
+  <!-- OPTIONAL SCRIPTS -->
+  <script src="/static/assets/js/demo.js"></script>
+
+  <!-- PAGE PLUGINS -->
+  <!-- jQuery Mapael -->
+  <script src="/static/assets/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+  <script src="/static/assets/plugins/raphael/raphael.min.js"></script>
+  <script src="/static/assets/plugins/jquery-mapael/jquery.mapael.min.js"></script>
+  <script src="/static/assets/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+  <!-- ChartJS -->
+  <script src="/static/assets/plugins/chart.js/Chart.min.js"></script>
+
+  <!-- PAGE SCRIPTS -->
+  <script src="/static/assets/js/pages/dashboard2.js"></script>
+
+{% endblock javascripts %}
