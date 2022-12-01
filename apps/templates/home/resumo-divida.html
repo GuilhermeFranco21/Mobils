@@ -1,0 +1,163 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Forma de Pagamento {% endblock %}
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %}
+
+{% block content %}
+
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Resumo</h1>
+            </div>
+            
+            <div class="col-sm-6">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Resumo da Divida</li>
+              </ol>
+            </div>
+          </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <!-- Horizontal Form -->
+        <div class="card card-info" >
+            <div class="card-header">
+              <h3 class="card-title">Detalhes</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form class="form-horizontal">
+
+                <div class="card-body">
+
+                    <div class="row" >
+                        <div class="form-group">
+                            <label for="outputCreditorName" class="col-sm-10 col-form-label">Nome do Credor</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="outputCreditorName" value="{{debt.creditor}}" placeholder="" readonly style="width: 400px;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="outputValue" class="col-sm-10 col-form-label">Valor da Divida</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="outputValue" value="R${{debt.amount}}" placeholder="" readonly style="width: 150px;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="outputDescription" class="col-sm-10 col-form-label">Descrição</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="outputDescription" value="{{debt.description}}" placeholder="" readonly style="width: 600px;">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="formPayment" class="col-sm-10 col-form-label">Forma de pagamento</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="formPayment" value="{{payment.description}}" placeholder="" readonly style="width: 400px;">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="numberInstallments" class="col-12 col-form-label">Quantidade de Parcelas</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="numberInstallments" value="R${{debt.installment_value}}" placeholder="" readonly style="width: 200px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        
+                        <!-- /.row -->
+                            <div class="row w-100 p-3">
+                                <div class="col-12">
+                                <h3 class="col-sm-10">Historico</h3>
+                                <table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th >#</th>
+                                            <th>Valor Parcela</th>
+                                            <th>Parcelas</th>
+                                            <th>Data de Vencimento</th>
+                                            <th>Status</th>
+                                            <th class="col-2">Ação</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for iten in installment %}
+                                    <tr data-widget="expandable-table" aria-expanded="false">
+                                        <td>{{iten.installment_number}}</td>
+                                        <td>R${{iten.installment_value}}</td>
+                                        <td>{{iten.installment_number}} / {{debt.number_installments}} Parcelas</td>
+                                        <td>{{iten.payment_date}}</td>
+                                        <td>{{iten.payed}}</td>
+                                        <td>
+                                            {% if iten.payed == "S" %}
+                                                <form method="POST" action="/parcelaDivida/{{iten.id}}">
+                                                    <div class="col-8">
+                                                        <a href="/parcelaDivida/{{iten.id}}">
+                                                            <div class="btn btn-primary btn-block btn-danger">Estornar</div>
+                                                        </a>
+                                                    </div>
+                                                </form>
+                                            {% endif %}
+                                            {% if iten.payed == "N" %}
+                                                <form method="POST" action="/parcelaDivida/{{iten.id}}">
+                                                    <div class="col-8">
+                                                        <a href="/parcelaDivida/{{iten.id}}">
+                                                            <div class="btn btn-primary btn-block btn-success">Pagar</div>
+                                                        </a>
+                                                    </div>
+                                                </form>
+                                            {% endif %}
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+                                    <tr class="expandable-body">
+                                        <td colspan="5">
+                                            <p>
+                                                Descricao
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+
+                </div>
+
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <a href="/parcelaDivida">
+                    <button type="submit" class="btn btn-default float-right">Voltar</button>
+                </a>
+              </div>
+              <!-- /.card-footer -->
+            </form>
+          </div>
+          <!-- /.card -->
+
+    </section>
+
+</div>
+
+
+
+{%endblock content%}
