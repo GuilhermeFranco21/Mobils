@@ -36,7 +36,7 @@ def upgrade():
     op.create_table('Debts',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('creditor', sa.String(length=150), nullable=True),
-    sa.Column('amount', sa.Integer(), nullable=True),
+    sa.Column('amount', sa.Float(), nullable=True),
     sa.Column('description', sa.String(length=150), nullable=True),
     sa.Column('id_payment_methods', sa.Integer(), nullable=True),
     sa.Column('number_installments', sa.String(length=60), nullable=True),
