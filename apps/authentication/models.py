@@ -44,7 +44,7 @@ class PaymentMethods(db.Model):
     description = db.Column(db.String(150), unique=True)
     
     def __repr__(self):
-        return str(self.description)
+        return str(self.description, self.id)
     
 
 class Debts(db.Model):
@@ -75,7 +75,10 @@ class DebtInstallment(db.Model):
     installment_value = db.Column(db.Float)
     payment_date = db.Column(db.Date)
     installment_number = db.Column(db.Integer)
+    payed = db.Column(db.String(1))
 
+    def __repr__(self):
+        return str(self.id)
 
 @login_manager.user_loader
 def user_loader(id):
