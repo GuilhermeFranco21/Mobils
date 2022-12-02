@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label for="inputValue" class="col-sm-10 col-form-label">Valor da Divida</label>
                             <div class="col-sm-10">
-                                <input type="number" class="form-control" id="inputValue" name="inputValue" placeholder="R$100" required style="width: 150px;">
+                                <input type="number" min="0" class="form-control" id="inputValue" name="inputValue" placeholder="R$100" required style="width: 150px;">
                             </div>
                         </div>
 
@@ -75,7 +75,7 @@
                         <div class="form-group">
                             <label for="inputInstallmentQuantity" class="col-sm-12 col-form-label">Quantidade de Parcelas</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="inputInstallmentQuantity"  name="inputInstallmentQuantity" placeholder="Ex: 50 parcelas" required style="width: 200px;">
+                                <input type="number" max="999" min="0" class="form-control" id="inputInstallmentQuantity"  name="inputInstallmentQuantity" placeholder="Ex: 50 parcelas" required style="width: 200px;">
                             </div>
                         </div>
 

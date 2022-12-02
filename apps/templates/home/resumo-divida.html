@@ -42,21 +42,24 @@
                         <div class="form-group">
                             <label for="outputCreditorName" class="col-sm-10 col-form-label">Nome do Credor</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="outputCreditorName" value="{{debt.creditor}}" placeholder="" readonly style="width: 400px;">
+                                <div style="width: 400px;">{{debt.creditor}}</div>
+                                <!--<input type="text" class="form-control" id="outputCreditorName" value="{{debt.creditor}}" placeholder="" readonly style="width: 400px;">-->
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="outputValue" class="col-sm-10 col-form-label">Valor da Divida</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="outputValue" value="R${{debt.amount}}" placeholder="" readonly style="width: 150px;">
+                                <div style="width: 150px;">R${{debt.amount}}</div>
+                                <!--<input type="text" class="form-control" id="outputValue" value="R${{debt.amount}}" placeholder="" readonly style="width: 150px;">-->
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="outputDescription" class="col-sm-10 col-form-label">Descrição</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="outputDescription" value="{{debt.description}}" placeholder="" readonly style="width: 600px;">
+                                <div style="width: 600px;" >{{debt.description}} </div>
+                                <!--<input type="text" class="form-control" id="outputDescription" value="{{debt.description}}" placeholder="" readonly style="width: 600px;">-->
                             </div>
                         </div>
 
@@ -67,14 +70,16 @@
                         <div class="form-group">
                             <label for="formPayment" class="col-sm-10 col-form-label">Forma de pagamento</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="formPayment" value="{{payment.description}}" placeholder="" readonly style="width: 400px;">
+                                <div  style="width: 400px;">{{payment.description}}</div>
+                                <!--<input type="text" class="form-control" id="formPayment" value="{{payment.description}}" placeholder="" readonly style="width: 400px;">-->
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="numberInstallments" class="col-12 col-form-label">Quantidade de Parcelas</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="numberInstallments" value="R${{debt.installment_value}}" placeholder="" readonly style="width: 200px;">
+                                <div tyle="width: 200px;">R${{debt.installment_value}}</div>
+                                <!--<input type="text" class="form-control" id="numberInstallments" value="R${{debt.installment_value}}" placeholder="" readonly style="width: 200px;">-->
                             </div>
                         </div>
                     </div>
@@ -107,7 +112,7 @@
                                         <td>
                                             {% if iten.payed == "S" %}
                                                 <form method="POST" action="/parcelaDivida/{{iten.id}}">
-                                                    <div class="col-8">
+                                                    <div class="col-10">
                                                         <a href="/parcelaDivida/{{iten.id}}">
                                                             <div class="btn btn-primary btn-block btn-danger">Estornar</div>
                                                         </a>
@@ -116,7 +121,7 @@
                                             {% endif %}
                                             {% if iten.payed == "N" %}
                                                 <form method="POST" action="/parcelaDivida/{{iten.id}}">
-                                                    <div class="col-8">
+                                                    <div class="col-10">
                                                         <a href="/parcelaDivida/{{iten.id}}">
                                                             <div class="btn btn-primary btn-block btn-success">Pagar</div>
                                                         </a>
@@ -127,13 +132,6 @@
 
                                     </tr>
                                     {% endfor %}
-                                    <tr class="expandable-body">
-                                        <td colspan="5">
-                                            <p>
-                                                Descricao
-                                            </p>
-                                        </td>
-                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
