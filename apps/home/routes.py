@@ -17,7 +17,7 @@ from dateutil.relativedelta import relativedelta
 @login_required
 def index():
 
-    return render_template('home/index2.html', segment='index')
+    return render_template('home/home-index.html', segment='index')
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
 @blueprint.route('/CadastrarFormaPagamento')
