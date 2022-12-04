@@ -17,7 +17,7 @@ from dateutil.relativedelta import relativedelta
 @login_required
 def index():
 
-    return render_template('home/index2.html', segment='index')
+    return render_template('home/home-index.html', segment='index')
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
 @blueprint.route('/CadastrarFormaPagamento')
@@ -36,7 +36,7 @@ def registerPayment():
     db.session.add(payment_method)
     db.session.commit()
     
-    print("Descrição: ", payment_method)
+    #print("Descrição: ", payment_method)
 
     return redirect('/listaFormaPagamento')
 
@@ -129,10 +129,12 @@ def registerDebt():
         count = count + 1
     return redirect('/listaDividas')
 
+
+#Rota para acessar lista de dividas 
 @blueprint.route('/listaDividas')
 @login_required
 def listDebt():
-    list = Debts.query.order_by(Debts.id)
+    list = Debts.query.order_by(Debts.id.desc())#invertendo a lista no order_by
     return render_template('home/lista-dividas.html', list=list)
 
 @blueprint.route('/deletarDivida/<int:id>')
