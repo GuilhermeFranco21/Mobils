@@ -33,8 +33,8 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body"style="display:flex; flex-wrap:wrap; justify-content: flex-end;">
-        <div class="col-2" style="padding:0px 0px 15px 0px; min-width: 90px; max-width: 155px">
-            <a href="/CadastrarFormaPagamento">
+        <div class="col-2" style="padding:0px 0px 15px 0px">
+            <a href="/forma-pagamento.html">
               <button type="submit" class="btn btn-primary btn-block btn-success">Adicionar</button>
             </a>
           </div>
@@ -44,22 +44,22 @@
             <thead>
               <tr>
                 <th>Descrição</th>
-                <th>Ações</th>
+                <th>Opção</th>
               </tr>
             </thead>
             <!--Corpo da tabela-->
             <tbody>
               {%for iten in list%}
               <tr>
-                <td class="col-8">{{ iten.description }}</td>
+                <td>{{ iten.description }}</td>
                 <td style="display: flex; flex-direction: row-reverse;">
-                  <div class="col-4" style="min-width: 86px; max-width: 155px">
+                  <div class="col-4">
                     <a href="/deletarFormaPagamento/{{ iten.id }}">
                       <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>
                     </a>
                   </div>
 
-                  <div class="col-4" style="min-width: 86px; max-width: 155px;">
+                  <div class="col-4">
                     <a href="/editarFormaPagamento/{{ iten.id }}">
                       <button type="submit" class="btn btn-primary btn-block btn-success">Editar</button>
                     </a>

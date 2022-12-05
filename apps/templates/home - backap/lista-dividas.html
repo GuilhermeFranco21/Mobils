@@ -47,21 +47,21 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body"style="display:flex; flex-wrap:wrap; justify-content: flex-end;">
-          <div class="col-2" style="padding:0px 0px 15px 0px; min-width: 90px; max-width: 155px">
-              <a href="/cadastrarDivida">
-                <button type="submit" class="btn btn-primary btn-block btn-success">Adicionar</button>
-              </a>
+            <div class="col-2" style="padding:0px 0px 15px 0px">
+                <a href="/cadastrarDivida">
+                    <button type="submit" class="btn btn-primary btn-block btn-success">Adicionar</button>
+                </a>
             </div>
 
           <table id="example1" class="table table-bordered table-striped">
             <!--Header da tabela-->
             <thead>
             <tr>
-              <th style="width: 350px;">Nome do Credor</th>
-              <th style="width: 350px;">Data de Vigencia</th>
-              <th style="width: 350px;">Valor Total</th>
-              <th style="width: 350px;">Parcelas</th>
-              <th style="width: 350px;">Acessar</th>
+              <th>Nome do Credor</th>
+              <th>Data de Vigencia</th>
+              <th>Valor Total</th>
+              <th>Parcelas</th>
+              <th>Acessar</th>
             </tr>
             </thead>
             <!--Corpo da tabela-->
@@ -70,11 +70,11 @@
             <tr>
 
               <td>{{iten.creditor}}</td>
-              <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
+              <td>{{iten.initial_date}} | {{iten.final_date}}</td><!--data de inicio - data final da contratação-->
               <td>{{iten.amount}}</td>
               <td>{{iten.number_installments}}</td>
               <td >
-                <div class="row" style="word-wrap: normal">
+                <div class="row">
                 <div class="col-4">
                   <a href="/deletarDivida/{{ iten.id }}">
                     <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>

@@ -6,20 +6,27 @@ Copyright (c) 2019 - present AppSeed.us
 from apps import db
 from apps.home import blueprint
 from flask import render_template, request, redirect, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
-from apps.authentication.models import PaymentMethods, Debts, DebtInstallment
+from apps.authentication.models import PaymentMethods, Debts, DebtInstallment, PerfilUser
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from apps.home.util import moeda
+
 
 
 @blueprint.route('/index')
 @login_required
 def index():
 
-    return render_template('home/index2.html', segment='index')
+    return render_template('home/home-index.html', segment='index')
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
+@blueprint.route('/CadastrarFormaPagamento')
+@login_required
+def createPayment():
+    return render_template("home/forma-pagamento.html")
+
 @blueprint.route('/registerPayMethod', methods=["POST",])
 @login_required
 def registerPayment():
@@ -31,7 +38,7 @@ def registerPayment():
     db.session.add(payment_method)
     db.session.commit()
     
-    print("Descrição: ", payment_method)
+    #print("Descrição: ", payment_method)
 
     return redirect('/listaFormaPagamento')
 
@@ -101,7 +108,7 @@ def registerDebt():
     payment_date = datetime.strptime(payment_date, '%Y-%m-%d').date()
     
     id_payment_methods = PaymentMethods.query.filter_by(description=payment_method).first().id
-    installment_value = float(amount)/int(number_installments)
+    installment_value = amount/int(number_installments)
     
     final_date = payment_date + relativedelta(months=int(number_installments)-1)
     
@@ -109,7 +116,7 @@ def registerDebt():
     print([creditor, amount, description, payment_method, number_installments, payment_date, final_date, installment_value])
     
     
-    debt = Debts(creditor=creditor, amount=amount, description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False)
+    debt = Debts(creditor=creditor, amount=round(amount, 2), description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False)
     
     db.session.add(debt)
     db.session.commit()
@@ -124,10 +131,12 @@ def registerDebt():
         count = count + 1
     return redirect('/listaDividas')
 
+
+#Rota para acessar lista de dividas 
 @blueprint.route('/listaDividas')
 @login_required
 def listDebt():
-    list = Debts.query.order_by(Debts.id)
+    list = Debts.query.order_by(Debts.id.desc())#invertendo a lista no order_by
     return render_template('home/lista-dividas.html', list=list)
 
 @blueprint.route('/deletarDivida/<int:id>')
@@ -149,7 +158,8 @@ def summaryDebt(id):
     payment_method = PaymentMethods.query.filter_by(id=payment_method_id).first()
     debt_installement = DebtInstallment.query.filter_by(id_debt=id)
 
-    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement)
+    
+    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement, moeda=moeda)
 
 
 @blueprint.route('/editarDivida/<int:id>')
@@ -182,15 +192,18 @@ def updateDebt():
     
     final_date = payment_date + relativedelta(months=int(number_installments)-1)
     
+    
+    
     debt = Debts.query.filter_by(id=request.form["id"]).first()
     debt.creditor = creditor
-    debt.amount = amount
+    debt.amount = round(float(amount), 2)
     debt.description = description
     debt.id_payment_methods = id_payment_methods
-    debt.installment_value = installment_value
+    debt.installment_value = round(float(installment_value), 2)
     debt.initial_date = payment_date
     debt.final_date = final_date
     debt.number_installments = number_installments
+
     
     db.session.add(debt)
     db.session.commit()
@@ -217,7 +230,7 @@ def updateDebt():
                 installment.payment_date = payment_date
             
             installment.installment_number = count
-            installment.installment_value = installment_value
+            installment.installment_value = round(installment_value, 2)
 
             db.session.add(installment)
             db.session.commit()
@@ -250,6 +263,65 @@ def installmentDebt(id):
     db.session.commit()
 
     return redirect("/resumoDivida/" + str(debt_installment.id_debt))
+
+#--------------------------------------------------------------------------------//---------------------------------------------------------------------------
+#Rota perfil
+
+@blueprint.route('/perfil')
+@login_required
+def perfil():
+    print("User id: ", current_user.id)
+    perfil = PerfilUser.query.filter_by(id_user=current_user.id).first()
+    return render_template('home/tela-perfil.html', perfil=perfil)
+    
+    
+#Editar Perfil
+@blueprint.route('/editarPerfil', methods=["POST",])
+@login_required
+def editarPerfil():
+    
+    #Definir propriedades
+    nome = request.form["nome"]
+    sobrenome = request.form["sobrenome"]
+    numero_telefone = request.form["numeroTelefone"]
+    endereco = request.form["endereco"]
+    cep = request.form["cep"]
+    #email = request.form["email"]
+    cidade = request.form["cidade"]
+    uf = request.form["estado"]
+    
+    id_user = current_user.id
+    
+    perfil = PerfilUser.query.filter_by(id_user=current_user.id).first()
+    print("Perfil: ", perfil)
+    
+    if perfil == None:
+
+        perfil_user = PerfilUser(id_user=id_user, nome=nome, sobrenome=sobrenome, numero_telefone=numero_telefone, endereco=endereco, 
+                             cep=cep, cidade=cidade, uf=uf)
+        db.session.add(perfil_user)
+        db.session.commit()
+        print("saida do id user: ", perfil_user)
+    
+    else:
+         perfil.id_user = id_user
+         perfil.nome = nome
+         perfil.sobrenome = sobrenome
+         perfil.numero_telefone = numero_telefone
+         perfil.endereco = endereco
+         perfil.cep = cep
+         perfil.cidade = cidade
+         perfil.uf = uf
+         db.session.add(perfil)
+         db.session.commit()
+         
+    return redirect('/perfil')
+
+
+
+
+    
+
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
 @blueprint.route('/<template>')
@@ -288,3 +360,5 @@ def get_segment(request):
 
     except:
         return None
+
+
