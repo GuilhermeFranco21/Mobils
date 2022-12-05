@@ -11,6 +11,7 @@ from jinja2 import TemplateNotFound
 from apps.authentication.models import PaymentMethods, Debts, DebtInstallment, PerfilUser
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from apps.home.util import moeda
 
 
 
@@ -107,7 +108,7 @@ def registerDebt():
     payment_date = datetime.strptime(payment_date, '%Y-%m-%d').date()
     
     id_payment_methods = PaymentMethods.query.filter_by(description=payment_method).first().id
-    installment_value = float(amount)/int(number_installments)
+    installment_value = amount/int(number_installments)
     
     final_date = payment_date + relativedelta(months=int(number_installments)-1)
     
@@ -115,7 +116,7 @@ def registerDebt():
     print([creditor, amount, description, payment_method, number_installments, payment_date, final_date, installment_value])
     
     
-    debt = Debts(creditor=creditor, amount=amount, description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False)
+    debt = Debts(creditor=creditor, amount=round(amount, 2), description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False)
     
     db.session.add(debt)
     db.session.commit()
@@ -157,7 +158,8 @@ def summaryDebt(id):
     payment_method = PaymentMethods.query.filter_by(id=payment_method_id).first()
     debt_installement = DebtInstallment.query.filter_by(id_debt=id)
 
-    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement)
+    
+    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement, moeda=moeda)
 
 
 @blueprint.route('/editarDivida/<int:id>')
@@ -190,15 +192,18 @@ def updateDebt():
     
     final_date = payment_date + relativedelta(months=int(number_installments)-1)
     
+    
+    
     debt = Debts.query.filter_by(id=request.form["id"]).first()
     debt.creditor = creditor
-    debt.amount = amount
+    debt.amount = round(float(amount), 2)
     debt.description = description
     debt.id_payment_methods = id_payment_methods
-    debt.installment_value = installment_value
+    debt.installment_value = round(float(installment_value), 2)
     debt.initial_date = payment_date
     debt.final_date = final_date
     debt.number_installments = number_installments
+
     
     db.session.add(debt)
     db.session.commit()
@@ -225,7 +230,7 @@ def updateDebt():
                 installment.payment_date = payment_date
             
             installment.installment_number = count
-            installment.installment_value = installment_value
+            installment.installment_value = round(installment_value, 2)
 
             db.session.add(installment)
             db.session.commit()
