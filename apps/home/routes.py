@@ -6,11 +6,12 @@ Copyright (c) 2019 - present AppSeed.us
 from apps import db
 from apps.home import blueprint
 from flask import render_template, request, redirect, flash
-from flask_login import login_required
+from flask_login import login_required, current_user
 from jinja2 import TemplateNotFound
-from apps.authentication.models import PaymentMethods, Debts, DebtInstallment
+from apps.authentication.models import PaymentMethods, Debts, DebtInstallment, PerfilUser
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+
 
 
 @blueprint.route('/index')
@@ -259,6 +260,65 @@ def installmentDebt(id):
     return redirect("/resumoDivida/" + str(debt_installment.id_debt))
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
+#Rota perfil
+
+@blueprint.route('/perfil')
+@login_required
+def perfil():
+    print("User id: ", current_user.id)
+    perfil = PerfilUser.query.filter_by(id_user=current_user.id).first()
+    return render_template('home/tela-perfil.html', perfil=perfil)
+    
+    
+#Editar Perfil
+@blueprint.route('/editarPerfil', methods=["POST",])
+@login_required
+def editarPerfil():
+    
+    #Definir propriedades
+    nome = request.form["nome"]
+    sobrenome = request.form["sobrenome"]
+    numero_telefone = request.form["numeroTelefone"]
+    endereco = request.form["endereco"]
+    cep = request.form["cep"]
+    #email = request.form["email"]
+    cidade = request.form["cidade"]
+    uf = request.form["estado"]
+    
+    id_user = current_user.id
+    
+    perfil = PerfilUser.query.filter_by(id_user=current_user.id).first()
+    print("Perfil: ", perfil)
+    
+    if perfil == None:
+
+        perfil_user = PerfilUser(id_user=id_user, nome=nome, sobrenome=sobrenome, numero_telefone=numero_telefone, endereco=endereco, 
+                             cep=cep, cidade=cidade, uf=uf)
+        db.session.add(perfil_user)
+        db.session.commit()
+        print("saida do id user: ", perfil_user)
+    
+    else:
+         perfil.id_user = id_user
+         perfil.nome = nome
+         perfil.sobrenome = sobrenome
+         perfil.numero_telefone = numero_telefone
+         perfil.endereco = endereco
+         perfil.cep = cep
+         perfil.cidade = cidade
+         perfil.uf = uf
+         db.session.add(perfil)
+         db.session.commit()
+         
+    return redirect('/perfil')
+
+
+
+
+    
+
+
+#--------------------------------------------------------------------------------//---------------------------------------------------------------------------
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
@@ -295,3 +355,5 @@ def get_segment(request):
 
     except:
         return None
+
+

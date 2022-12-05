@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from flask_login import UserMixin
 
-from apps import db, login_manager
+from apps import db, login_manager 
 
 from apps.authentication.util import hash_pass
 
@@ -35,6 +35,19 @@ class Users(db.Model, UserMixin):
     def __repr__(self):
         return str(self.username)
     
+
+#Login
+@login_manager.user_loader
+def user_loader(id):
+    return Users.query.filter_by(id=id).first()
+
+
+@login_manager.request_loader
+def request_loader(request):
+    username = request.form.get('username')
+    user = Users.query.filter_by(username=username).first()
+    return user if user else None
+#Fim login
 
 class PaymentMethods(db.Model):
 
@@ -80,13 +93,19 @@ class DebtInstallment(db.Model):
     def __repr__(self):
         return str(self.id)
 
-@login_manager.user_loader
-def user_loader(id):
-    return Users.query.filter_by(id=id).first()
 
-
-@login_manager.request_loader
-def request_loader(request):
-    username = request.form.get('username')
-    user = Users.query.filter_by(username=username).first()
-    return user if user else None
+class PerfilUser(db.Model):
+    
+    __tablename__ = 'Perfil_User'
+    
+    id = db.Column(db.Integer, primary_key=True) 
+    id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
+    nome = db.Column(db.String(60))
+    sobrenome = db.Column(db.String(60))
+    numero_telefone = db.Column(db.String(20))
+    endereco = db.Column(db.String(100))
+    cep = db.Column(db.String(10))
+    #email vai pegar do objeto user
+    cidade = db.Column(db.String(60))
+    uf = db.Column(db.String(60))
+    
