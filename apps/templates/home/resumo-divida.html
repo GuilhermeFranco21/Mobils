@@ -104,7 +104,7 @@
                                     {% for iten in installment %}
                                     <tr data-widget="expandable-table" aria-expanded="false">
                                         <td>{{iten.installment_number}}</td>
-                                        <td>R${{iten.installment_value}}</td>
+                                        <td>R${{moeda(iten.installment_value)}}</td>
                                         <td>{{iten.installment_number}} / {{debt.number_installments}} Parcelas</td>
                                         <td>{{iten.payment_date.strftime("%d/%m/%Y")}}</td>
                                         <td>{{iten.payed}}</td>
