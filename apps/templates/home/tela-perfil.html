@@ -10,8 +10,6 @@
 {% endblock %}
 
 
-
-
 {% block content %}
 <div class="content-wrapper">
     <section class="content-header">
@@ -35,13 +33,19 @@
 
     <!-- Main content -->
     <div class="container rounded bg-white mt-5 mb-5">
-        <form method="GET" action="">
+        {% if perfil != None %}
+        <form method="POST" action="/editarPerfil">
                 <div class="row">
                     <div class="col-md-4 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" />
-                            <span class="font-weight-bold">{{user}}</span>
-                            <span class="text-black-50">edogaru@mail.com.my</span>
+                            <div>
+                                <img class="rounded-circle mt-5" width="150px"
+                                 src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" />
+                                <input type="file">
+                            </div>
+                            
+                            <span class="font-weight-bold">{{perfil.nome.title()}} {{perfil.sobrenome}}</span>
+                            <span class="text-black-50" >{{current_user.email}}</span>
                             <span></span>
                         </div>
                     </div>
@@ -55,45 +59,60 @@
 
                         <div class="row mt-2">
                             <div class="col-md-6">
-                                <label class="labels">Nome</label><input type="text" class="form-control" placeholder="Nome" value="" />
+                                <label class="labels">Nome</label>
+                                <input type="text" class="form-control" placeholder="Nome" value="{{perfil.nome}}" name="nome" />
                             </div>
 
                             <div class="col-md-6">
-                                <label class="labels">Sobrenome</label><input type="text" class="form-control" value="" placeholder="Sobrenome" />
+                                <label class="labels">Sobrenome</label>
+                                <input type="text" class="form-control" value="{{perfil.sobrenome}}" placeholder="Sobrenome" name="sobrenome" />
                             </div>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-12">
-                                <label class="labels">Numero de telefone</label><input type="text" class="form-control" placeholder="ex: 34 99999-9999" value="" />
+                                <label class="labels">Numero de telefone</label>
+                                <input type="text" class="form-control" placeholder="ex: 34 99999-9999" value="{{perfil.numero_telefone}}" name="numeroTelefone" />
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Endereço</label><input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="" />
+                                <label class="labels">Endereço</label>
+                                <input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="{{perfil.endereco.title()}}" name="endereco"/>
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">CEP</label><input type="text" class="form-control" placeholder="CEP" value="" />
+                                <label class="labels">CEP</label>
+                                <input type="text" class="form-control" placeholder="CEP" value="{{perfil.cep}}" name="cep"/>
                             </div>
                             <div class="col-md-12">
-                                <label class="labels">Email</label><input type="text" class="form-control" placeholder="email" value="" />
+                                <label class="labels">Email</label>
+                                <input type="text" class="form-control" placeholder="email" value="{{current_user.email}}" name="email"/>
                             </div>
                         </div>
 
                         <div class="row mt-3">
                             <div class="col-md-6">
-                                <label class="labels">Cidade</label><input type="text" class="form-control" placeholder="Cidade" value="" />
+                                <label class="labels">Cidade</label>
+                                <input type="text" class="form-control" placeholder="Cidade" value="{{perfil.cidade.title()}}" name="cidade" />
                             </div>
                             <div class="col-md-6">
-                                <label class="labels">Estado</label><input type="text" class="form-control" value="" placeholder="Estado" />
+                                <label class="labels">Estado</label>
+                                <input type="text" class="form-control" value="{{perfil.uf.title()}}" placeholder="Estado" name="estado" />
                             </div>
                         </div>
+
+                        
 
                         <div class="mt-4 text-center">
-                            <button class="btn btn-primary profile-button" type="button">Salvar Dados</button>
+                            <button  class="btn btn-primary profile-button" type="submit">Salvar Dados</button>
                         </div>
                     </div>
+                    
                 </div>
             </div>
         </form>
+        {% endif %}
+
+        
+
     </div>
 </get>
 {% endblock %}
