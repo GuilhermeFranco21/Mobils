@@ -54,17 +54,19 @@ class PaymentMethods(db.Model):
     __tablename__ = 'Payment_Methods'
     
     id = db.Column(db.Integer, primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
     description = db.Column(db.String(150), unique=True)
     
     def __repr__(self):
         return str(self.description, self.id)
-    
+
 
 class Debts(db.Model):
     
     __tablename__ = 'Debts'
     
     id = db.Column(db.Integer, primary_key=True)
+    id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
     creditor = db.Column(db.String(150))
     amount = db.Column(db.Integer)
     description = db.Column(db.String(150))
