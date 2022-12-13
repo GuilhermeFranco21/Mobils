@@ -18,8 +18,32 @@ from apps.home.util import moeda
 @blueprint.route('/index')
 @login_required
 def index():
+    
+    #Tratar quantidade de dividas
+    qtdDividas = db.session.query(Debts).count()
+    print("Cn: ", qtdDividas)
+    
+    valorTotalDividas = db.session.query(Debts.amount).all()
+    #valorTotalDividas = db.session.query.filter_by(Debts.amount, id_user=current_user.id)
+    print("valor total: ", valorTotalDividas)
+    cont = 0
+    valorF = 0
+    
+    for iten, valor in enumerate(valorTotalDividas):
+        cont+=1
+        print(valor)
+        for i, valorI in enumerate(valor):
+            valorF = valorF + valorI
+        print("valor: ", valorF)
+        
+        
+    #Filtra lista por user
+    list = Debts.query.filter_by(id_user=current_user.id)
+    
+    
+    
+    return render_template('home/home-index.html', info=cont, list=list, valorDividaTotal=valorF)
 
-    return render_template('home/home-index.html', segment='index')
 
 #--------------------------------------------------------------------------------//---------------------------------------------------------------------------
 @blueprint.route('/CadastrarFormaPagamento')
@@ -34,7 +58,7 @@ def registerPayment():
     
     description = request.form["inputDescription"]
     
-    payment_method = PaymentMethods(description=description)
+    payment_method = PaymentMethods(description=description, id_user=current_user.id)
     db.session.add(payment_method)
     db.session.commit()
     
@@ -46,7 +70,8 @@ def registerPayment():
 @blueprint.route('/listaFormaPagamento')
 @login_required
 def listPayment():
-    list = PaymentMethods.query.order_by(PaymentMethods.id)
+    
+    list = PaymentMethods.query.filter_by(id_user=current_user.id)
     print(list)
     return render_template('home/lista-forma-pagamento.html', list=list)
 
@@ -88,18 +113,23 @@ def deletePayment(id):
 @blueprint.route('/cadastrarDivida')
 @login_required
 def createDebt():
+    
     print("Cadastrando divida")
-    list_payment_methods = PaymentMethods.query.order_by(PaymentMethods.id)
+    
+    list_payment_methods = PaymentMethods.query.filter_by(id_user=current_user.id)
+
     return render_template("home/cadastro-divida.html", list_payment=list_payment_methods)
 
 @blueprint.route('/registerDebt', methods=["POST",])
 @login_required
 def registerDebt():
+    
     print("Divida registrada com sucesso")
     count = 1
     
     creditor = request.form["inputCreditorName"]
     amount = request.form["inputValue"]
+    amount = float(amount)
     description = request.form["inputDescription"]
     payment_method = request.form["inputFormPayment"]
     number_installments = request.form["inputInstallmentQuantity"]
@@ -116,8 +146,7 @@ def registerDebt():
     print([creditor, amount, description, payment_method, number_installments, payment_date, final_date, installment_value])
     
     
-    debt = Debts(creditor=creditor, amount=round(amount, 2), description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False)
-    
+    debt= Debts(creditor=creditor, amount=round(amount, 2), description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False, id_user=current_user.id)
     db.session.add(debt)
     db.session.commit()
     
@@ -136,7 +165,10 @@ def registerDebt():
 @blueprint.route('/listaDividas')
 @login_required
 def listDebt():
-    list = Debts.query.order_by(Debts.id.desc())#invertendo a lista no order_by
+    
+    list = Debts.query.filter_by(id_user=current_user.id)
+    
+    #list = Debts.query.order_by(Debts.id.desc()) #invertendo a lista no order_by
     return render_template('home/lista-dividas.html', list=list)
 
 @blueprint.route('/deletarDivida/<int:id>')
@@ -149,7 +181,7 @@ def deleteDebt(id):
     
     return redirect("/listaDividas")
 
-
+#Resumo de dividas
 @blueprint.route('/resumoDivida/<int:id>')
 @login_required
 def summaryDebt(id):
@@ -301,7 +333,7 @@ def editarPerfil():
                              cep=cep, cidade=cidade, uf=uf)
         db.session.add(perfil_user)
         db.session.commit()
-        print("saida do id user: ", perfil_user)
+        print("Saida do id user: ", perfil_user)
     
     else:
          perfil.id_user = id_user

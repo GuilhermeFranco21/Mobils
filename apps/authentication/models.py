@@ -111,3 +111,7 @@ class PerfilUser(db.Model):
     cidade = db.Column(db.String(60))
     uf = db.Column(db.String(60))
     
+    
+# Pagina index - mostrar valores, valor total de dividas, quantidade de dividas, 
+# Valor total pago, contas nao paga
+

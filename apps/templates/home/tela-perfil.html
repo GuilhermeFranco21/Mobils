@@ -44,7 +44,7 @@
                                 <input type="file">
                             </div>
                             
-                            <span class="font-weight-bold">{{perfil.nome.title()}} {{perfil.sobrenome}}</span>
+                            <span class="font-weight-bold"> {{perfil.nome}} {{perfil.sobrenome}}</span>
                             <span class="text-black-50" >{{current_user.email}}</span>
                             <span></span>
                         </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">Endereço</label>
-                                <input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="{{perfil.endereco.title()}}" name="endereco"/>
+                                <input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="{{perfil.endereco}}" name="endereco"/>
                             </div>
                             <div class="col-md-12">
                                 <label class="labels">CEP</label>
@@ -91,11 +91,11 @@
                         <div class="row mt-3">
                             <div class="col-md-6">
                                 <label class="labels">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Cidade" value="{{perfil.cidade.title()}}" name="cidade" />
+                                <input type="text" class="form-control" placeholder="Cidade" value="{{perfil.cidade}}" name="cidade" />
                             </div>
                             <div class="col-md-6">
                                 <label class="labels">Estado</label>
-                                <input type="text" class="form-control" value="{{perfil.uf.title()}}" placeholder="Estado" name="estado" />
+                                <input type="text" class="form-control" value="{{perfil.uf}}" placeholder="Estado" name="estado" />
                             </div>
                         </div>
 
@@ -111,7 +111,7 @@
         </form>
         {% endif %}
 
-        
+                
 
     </div>
 </get>
