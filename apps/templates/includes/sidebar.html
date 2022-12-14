@@ -10,12 +10,15 @@
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="/static/assets/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
+        
         <div class="info">
+          <a href="/perfil" class="d-block"><div class="image">
+            <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" class="img-circle elevation-2" alt="User Image">
+          </div> {{current_user.username}}</a>
+        </div>
+        <div style="padding: 12px 3px 2px 0px;">
           <a href="{{ url_for('authentication_blueprint.logout') }}" class="d-block">
-            {{ current_user.username }} - Logout
+            - Logout
           </a>
         </div>
       </div>

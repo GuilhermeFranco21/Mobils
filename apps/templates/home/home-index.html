@@ -53,7 +53,7 @@
                 <span class="info-box-text">Valor Total de Dividas</span>
                 <span class="info-box-number">
                   <small>R$</small>
-                  100.000,00
+                  {{moeda(valorDividaTotal)}}
                   <small></small>
                 </span>
               </div>
@@ -68,7 +68,9 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Quantidade de dividas</span>
-                <span class="info-box-number">28</span>
+                <span class="info-box-number">
+                  {{info}}
+                </span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -87,7 +89,7 @@
                 <span class="info-box-text">Valor total pago</span>
                 <span class="info-box-number">
                   <small>R$</small>
-                    50.000,00
+                    {{moeda(valorPago)}}
                   <small></small>
                 </span>
               </div>
@@ -102,7 +104,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Valor de Contas Não Pagas</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-number">R${{moeda(valorNaoPago)}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -122,18 +124,7 @@
                   <button type="button" class="btn btn-tool" data-card-widget="collapse">
                     <i class="fas fa-minus"></i>
                   </button>
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                      <i class="fas fa-wrench"></i>
-                    </button>
-                    <!--<div class="dropdown-menu dropdown-menu-right" role="menu">
-                      <a href="#" class="dropdown-item">Action</a>
-                      <a href="#" class="dropdown-item">Another action</a>
-                      <a href="#" class="dropdown-item">Something else here</a>
-                      <a class="dropdown-divider"></a>
-                      <a href="#" class="dropdown-item">Separated link</a>
-                    </div>-->
-                  </div>
+
                   <button type="button" class="btn btn-tool" data-card-widget="remove">
                     <i class="fas fa-times"></i>
                   </button>
@@ -151,40 +142,41 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                
                                 <th>Nome Credor</th>
                                 <th>Quantidade de Parcelas</th>
+                                <th>Valor do emprestimo</th>
                                 <th>Data Contratação/Finalização</th>
-                                <th>Status</th>
+                                <!--<th>Status</th>-->
                                 <th class="col-2">Ação</th>
                             </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>001</td>
-                            <td>Guilherme Franco Oliveira</td>
-                            <td>50 Parcelas</td>
-                            <td>11/7/2023 a 11/8/2023</td>
-                            <td>Em dia</td>
-                            <td>
-                              <div class="col-12">
-                                  <div class="btn btn-primary btn-block btn-success">Visualizar</div>
-                              </div>
-                            </td>
+                            
+                            {% for iten in list %}
+                            <tr>
+                              <td>{{iten.creditor}}</td>
+                              <td>{{iten.number_installments}}</td>
+                              <td>R${{moeda(iten.amount)}}</td>
+                              <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
+                              <td>
+                                <div class="col-12">
+                                  <a href="/resumoDivida/{{ iten.id }}">
+                                    <button type="submit" class="btn btn-primary btn-block btn-success" style="max-width: 155px;">Visualizar</button>
+                                  </a>
+                                </div>
+                              </td>
+                            </tr>
+                            {% endfor %}
                           </tr>
                         </tbody>
                     </table>
                 </div>
-
-
-
               </div>
-              <!-- ./card-body -->
             </div>
           </div>
-          <!-- /.col -->
         </div>
-
       </div>
     </div>    
   </div>

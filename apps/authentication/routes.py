@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask import render_template, redirect, request, url_for
+from apps.authentication.models import PerfilUser
 from flask_login import (
     current_user,
     login_user,
@@ -54,6 +55,8 @@ def login():
     return redirect(url_for('home_blueprint.index'))
 
 
+# Rota de cadastro de novos usuarios
+
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     create_account_form = CreateAccountForm(request.form)
@@ -83,6 +86,11 @@ def register():
         user = Users(**request.form)
         db.session.add(user)
         db.session.commit()
+        
+        alocation = PerfilUser(id_user=user.id)
+        db.session.add(alocation)
+        db.session.commit()
+        
 
         return render_template('accounts/register.html',
                                msg='User created please <a href="/login">login</a>',
