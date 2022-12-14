@@ -8,22 +8,22 @@
 {% block content %}
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-       <div class="container-fluid">
-         <div class="row mb-2">
-           <div class="col-sm-6">
-             <h1> Dividas </h1>
-           </div>
-           <div class="col-sm-6">
-             <ol class="breadcrumb float-sm-right">
-               <li class="breadcrumb-item"><a href="#">Home</a></li>
-               <li class="breadcrumb-item active">Dividas</li>
-             </ol>
-           </div>
-         </div>
-       </div><!-- /.container-fluid -->
-    </section>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1> Dividas </h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Dividas</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+  </section>
 
 <!--
     <div class="card">
@@ -40,68 +40,102 @@
     </div>
 -->
 
-    <!--tabela-->
-    <div class="card">
-        <div class="card-header">
-          <h3 class="card-title"></h3>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body"style="display:flex; flex-wrap:wrap; justify-content: flex-end;">
-          <div class="col-2" style="padding:0px 0px 15px 0px; min-width: 90px; max-width: 155px">
-              <a href="/cadastrarDivida">
-                <button type="submit" class="btn btn-primary btn-block btn-success">Adicionar</button>
-              </a>
-            </div>
-
-          <table id="example1" class="table table-bordered table-striped">
-            <!--Header da tabela-->
-            <thead>
-            <tr>
-              <th style="width: 350px;">Nome do Credor</th>
-              <th style="width: 350px;">Data de Vigencia</th>
-              <th style="width: 350px;">Valor Total</th>
-              <th style="width: 350px;">Parcelas</th>
-              <th style="width: 350px;">Acessar</th>
-            </tr>
-            </thead>
-            <!--Corpo da tabela-->
-            <tbody>
-            {% for iten in list %}
-            <tr>
-
-              <td>{{iten.creditor}}</td>
-              <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
-              <td>{{iten.amount}}</td>
-              <td>{{iten.number_installments}}</td>
-              <td >
-                <div class="row" style="word-wrap: normal">
-                <div class="col-4">
-                  <a href="/deletarDivida/{{ iten.id }}">
-                    <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>
-                  </a>
-                  </div>
-                <div class="col-4">
-                  <a href="/resumoDivida/{{ iten.id }}">
-                    <button type="submit" class="btn btn-primary btn-block btn-success">Visualizar</button>
-                  </a>
-                </div>
-
-                <div class="col-4">
-                  <a href="/editarDivida/{{ iten.id }}">
-                    <button type="submit" class="btn btn-primary btn-block btn-success">Editar</button>
-                  </a>
-                </div>
-              </div>
-              </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <!-- /.card-body -->
+  <!--tabela-->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title"></h3>
+    </div>
+      <!-- /.card-header -->
+    <div class="card-body"style="display:flex; flex-wrap:wrap; justify-content: flex-end;">
+      <div class="col-2" style="padding:0px 0px 15px 0px; min-width: 90px; max-width: 155px">
+        <a href="/cadastrarDivida">
+          <button type="submit" class="btn btn-primary btn-block btn-success">Adicionar</button>
+        </a>
       </div>
-      <!-- /.card -->
 
+      <table id="example1" class="table table-bordered table-striped">
+        <!--Header da tabela-->
+        <thead>
+        <tr>
+          <th style="width: 350px;">Nome do Credor</th>
+          <th style="width: 350px;">Data de Vigencia</th>
+          <th style="width: 350px;">Valor Total</th>
+          <th style="width: 350px;">Parcelas</th>
+          <th style="width: 350px;">Acessar</th>
+        </tr>
+        </thead>
+        <!--Corpo da tabela-->
+        <tbody>
+        {% for iten in list %}
+        <tr>
+
+          <td>{{iten.creditor}}</td>
+          <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
+          <td>R${{moeda(iten.amount)}}</td>
+          <td>{{iten.number_installments}}</td>
+          <td >
+            <div class="row" style="word-wrap: normal">
+              <div class="col-4">
+                <button type="submit" class="btn btn-primary btn-block btn-danger" data-toggle="modal" data-target="#confirm">Excluir</button>
+                <div class="modal fade" id="confirm" role="dialog">
+                  <div class="modal-dialog modal-md">
+                
+                    <div class="modal-content">
+                      <div class="modal-body">
+                            <p>Deseja realmente apagar?</p>
+                      </div>
+                      <div class="modal-footer">
+            
+                        <div class="col-4">
+                          <a href="/deletarDivida/{{iten.id}}">
+                            <button type="submit" class="btn btn-primary btn-block btn-danger">Apagar</button>
+                          </a>
+                        </div>
+            
+                        <div class="col-4">
+                          <button type="button" class="btn btn-primary btn-block btn" data-dismiss="modal">Cancelar</button>
+                        </div>
+            
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--fim-->
+              </div>
+
+              <div class="col-4">
+                <a href="/resumoDivida/{{ iten.id }}">
+                  <button type="submit" class="btn btn-primary btn-block btn-success">Visualizar</button>
+                </a>
+              </div>
+
+              <div class="col-4">
+                <a href="/editarDivida/{{ iten.id }}">
+                  <button type="submit" class="btn btn-primary btn-block btn-success">Editar</button>
+                </a>
+              </div>
+            </div>
+          </td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+
+    
+
+  </div>
 </div>
 
+
 {% endblock content %}
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+{% endblock javascripts %}
