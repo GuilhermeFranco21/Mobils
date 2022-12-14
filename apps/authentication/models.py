@@ -87,6 +87,7 @@ class DebtInstallment(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     id_debt = db.Column(db.Integer, db.ForeignKey(Debts.id))
+    id_user = db.Column(db.Integer, db.ForeignKey(Users.id)) #Para filtrar por user
     installment_value = db.Column(db.Float)
     payment_date = db.Column(db.Date)
     installment_number = db.Column(db.Integer)

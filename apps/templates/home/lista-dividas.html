@@ -71,7 +71,7 @@
 
           <td>{{iten.creditor}}</td>
           <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
-          <td>{{iten.amount}}</td>
+          <td>R${{moeda(iten.amount)}}</td>
           <td>{{iten.number_installments}}</td>
           <td >
             <div class="row" style="word-wrap: normal">

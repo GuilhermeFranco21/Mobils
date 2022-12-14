@@ -53,7 +53,7 @@
                 <span class="info-box-text">Valor Total de Dividas</span>
                 <span class="info-box-number">
                   <small>R$</small>
-                  {{valorDividaTotal}}
+                  {{moeda(valorDividaTotal)}}
                   <small></small>
                 </span>
               </div>
@@ -89,7 +89,7 @@
                 <span class="info-box-text">Valor total pago</span>
                 <span class="info-box-number">
                   <small>R$</small>
-                    50.000,00
+                    {{moeda(valorPago)}}
                   <small></small>
                 </span>
               </div>
@@ -104,7 +104,7 @@
 
               <div class="info-box-content">
                 <span class="info-box-text">Valor de Contas Não Pagas</span>
-                <span class="info-box-number">2,000</span>
+                <span class="info-box-number">R${{moeda(valorNaoPago)}}</span>
               </div>
               <!-- /.info-box-content -->
             </div>
@@ -145,6 +145,7 @@
                                 
                                 <th>Nome Credor</th>
                                 <th>Quantidade de Parcelas</th>
+                                <th>Valor do emprestimo</th>
                                 <th>Data Contratação/Finalização</th>
                                 <!--<th>Status</th>-->
                                 <th class="col-2">Ação</th>
@@ -157,6 +158,7 @@
                             <tr>
                               <td>{{iten.creditor}}</td>
                               <td>{{iten.number_installments}}</td>
+                              <td>R${{moeda(iten.amount)}}</td>
                               <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
                               <td>
                                 <div class="col-12">

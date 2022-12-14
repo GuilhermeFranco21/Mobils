@@ -18,34 +18,45 @@ from apps.home.util import moeda
 @blueprint.route('/index')
 @login_required
 def index():
-    
-    #Tratar quantidade de dividas
-    qtdDividas = db.session.query(Debts).count()
-    print("Cn: ", qtdDividas)
-    
-    valorTotalDividas = db.session.query(Debts.amount).all()
-    #valorTotalDividas = db.session.query.filter_by(Debts.amount, id_user=current_user.id)
-    print("valor total: ", valorTotalDividas)
-    cont = 0
-    valorF = 0
-    
-    for iten, valor in enumerate(valorTotalDividas):
-        cont+=1
-        print(valor)
-        for i, valorI in enumerate(valor):
-            valorF = valorF + valorI
-        print("valor: ", valorF)
-        
-        
     #Filtra lista por user
     list = Debts.query.filter_by(id_user=current_user.id)
     
+    #Tratar quantidade de dividas, por id_user.
+    qtdDividas = Debts.query.filter_by(id_user=current_user.id).count()
+    print("Cn: ", qtdDividas)
+    
+    #Calcula total das dividas por usuario. No for ele entra na list e calcula valor por valor e atribui no falorF = valor final
+    valorTotalDividas = db.session.query(Debts.amount).filter_by(id_user=current_user.id).all()
+    print("valor total: ", valorTotalDividas)
+    valorF = 0
+    qtdD = 0 # Verificar se vou manter, pró: menos linha de codigo
+    for iten, valor in enumerate(valorTotalDividas):
+        qtdD = iten + 1 
+        #print("\n\n\n\n\nquantidade dividas: ", qtdD)
+        for i, valorI in enumerate(valor):
+            valorF = valorF + valorI
+        print("valor: ", valorF)
+
+    #Contas nao pagas
+    contaNPagas = db.session.query(DebtInstallment).filter(DebtInstallment.payed == 'N').filter_by(id_user=current_user.id).all()
+    valorNPago = 0
+    for row in contaNPagas:
+        valorNPago = valorNPago + row.installment_value  
+    print("Contas nao pagas: ", valorNPago)
+    
+    #Contas paga
+    contaPagas = db.session.query(DebtInstallment).filter(DebtInstallment.payed == 'S').filter_by(id_user=current_user.id).all()
+    valorPago = 0
+    for row in contaPagas:
+        valorPago = valorPago + row.installment_value  
+    print("Contas pagas: ", valorPago)
     
     
-    return render_template('home/home-index.html', info=cont, list=list, valorDividaTotal=valorF)
+    
+    return render_template('home/home-index.html', list=list, info=qtdD, valorDividaTotal=valorF, valorNaoPago=valorNPago, valorPago=valorPago, moeda=moeda)
 
 
-#--------------------------------------------------------------------------------//---------------------------------------------------------------------------
+#----------------------------------------------------------------------------------//-----------------------------------------------------------------------------
 @blueprint.route('/CadastrarFormaPagamento')
 @login_required
 def createPayment():
@@ -143,7 +154,7 @@ def registerDebt():
     final_date = payment_date + relativedelta(months=int(number_installments)-1)
     
     print("type: ", id_payment_methods)
-    print([creditor, amount, description, payment_method, number_installments, payment_date, final_date, installment_value])
+    print([creditor, amount, description, payment_method, number_installments, payment_date, final_date, installment_value,])
     
     
     debt= Debts(creditor=creditor, amount=round(amount, 2), description=description, id_payment_methods=id_payment_methods, number_installments=number_installments, installment_value=installment_value, initial_date=payment_date, final_date=final_date, pay=False, id_user=current_user.id)
@@ -152,7 +163,7 @@ def registerDebt():
     
     while count <= int(number_installments):
         payment_date = payment_date + relativedelta(months=1)
-        debt_Installment = DebtInstallment(id_debt=debt.id, installment_value=installment_value, payment_date=payment_date, installment_number=count, payed="N")
+        debt_Installment = DebtInstallment(id_debt=debt.id, installment_value=installment_value, payment_date=payment_date, installment_number=count, payed="N", id_user=current_user.id)
         
         db.session.add(debt_Installment)
         db.session.commit()
@@ -169,7 +180,7 @@ def listDebt():
     list = Debts.query.filter_by(id_user=current_user.id)
     
     #list = Debts.query.order_by(Debts.id.desc()) #invertendo a lista no order_by
-    return render_template('home/lista-dividas.html', list=list)
+    return render_template('home/lista-dividas.html', list=list, moeda=moeda)
 
 @blueprint.route('/deletarDivida/<int:id>')
 @login_required
@@ -191,7 +202,7 @@ def summaryDebt(id):
     debt_installement = DebtInstallment.query.filter_by(id_debt=id)
 
     
-    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement, moeda=moeda)
+    return render_template("home/resumo-divida.html", debt=debt, payment=payment_method, installment=debt_installement, moeda=moeda) 
 
 
 @blueprint.route('/editarDivida/<int:id>')
