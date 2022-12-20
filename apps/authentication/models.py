@@ -55,7 +55,7 @@ class PaymentMethods(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     id_user = db.Column(db.Integer, db.ForeignKey(Users.id))
-    description = db.Column(db.String(150), unique=True)
+    description = db.Column(db.String(150))
     
     def __repr__(self):
         return str(self.description, self.id)
@@ -111,6 +111,7 @@ class PerfilUser(db.Model):
     #email vai pegar do objeto user
     cidade = db.Column(db.String(60))
     uf = db.Column(db.String(60))
+    imgPerfil = db.Column(db.String(100))#imagem para o perfil
     
     
 # Pagina index - mostrar valores, valor total de dividas, quantidade de dividas, 

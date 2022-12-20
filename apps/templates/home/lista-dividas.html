@@ -69,10 +69,10 @@
         {% for iten in list %}
         <tr>
 
-          <td>{{iten.creditor}}</td>
+          <td>{{iten.creditor.title()}}</td>
           <td>{{iten.initial_date.strftime("%d/%m/%Y")}} a {{iten.final_date.strftime("%d/%m/%Y")}}</td><!--data de inicio - data final da contratação-->
           <td>R${{moeda(iten.amount)}}</td>
-          <td>{{iten.number_installments}}</td>
+          <td>{{iten.number_installments}} Parcelas</td>
           <td >
             <div class="row" style="word-wrap: normal">
               <div class="col-4">
@@ -91,7 +91,7 @@
                             <button type="submit" class="btn btn-primary btn-block btn-danger">Apagar</button>
                           </a>
                         </div>
-            
+          
                         <div class="col-4">
                           <button type="button" class="btn btn-primary btn-block btn" data-dismiss="modal">Cancelar</button>
                         </div>

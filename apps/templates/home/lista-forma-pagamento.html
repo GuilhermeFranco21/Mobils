@@ -13,7 +13,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Dividas</h1>
+            <h1>Forma Pagamento</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -53,10 +53,30 @@
               <tr>
                 <td class="col-8">{{ iten.description }}</td>
                 <td style="display: flex; flex-direction: row-reverse;">
+
                   <div class="col-4" style="min-width: 86px; max-width: 155px">
-                    <a href="/deletarFormaPagamento/{{ iten.id }}">
-                      <button type="submit" class="btn btn-primary btn-block btn-danger">Excluir</button>
-                    </a>
+                    <button type="submit" class="btn btn-primary btn-block btn-danger" data-toggle="modal" data-target="#confirm">Excluir</button>
+                    <div class="modal fade" id="confirm" role="dialog">
+                      <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                          <div class="modal-body">
+                                <p>Deseja realmente apagar?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <div class="col-4">
+                              <a href="/deletarFormaPagamento/{{ iten.id }}">
+                                <button type="submit" class="btn btn-primary btn-block btn-danger">Apagar</button>
+                              </a>
+                            </div>
+                
+                            <div class="col-4">
+                              <button type="button" class="btn btn-primary btn-block btn" data-dismiss="modal">Cancelar</button>
+                            </div>
+                
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
                   <div class="col-4" style="min-width: 86px; max-width: 155px;">

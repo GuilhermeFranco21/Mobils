@@ -18,7 +18,11 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False 
 
     # Assets Management
-    ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')    
+    ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
+    
+    UPLOAD_PATHA = os.getenv('UPLOAD_PATHA', 'uploads')
+    
+    #UPLOAD = os.path.dirname(os.path.abspath(__file__)) + '/upload'
     
 class ProductionConfig(Config):
     DEBUG = False
@@ -48,3 +52,7 @@ config_dict = {
     'Production': ProductionConfig,
     'Debug'     : DebugConfig
 }
+
+
+# Caminho para as imagens de perfil dos user
+#UPLOAD = os.path.dirname(os.path.abspath(__file__)) + '/upload'
