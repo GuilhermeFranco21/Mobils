@@ -9,15 +9,14 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
         <div class="info">
           <a href="/perfil" class="d-block"><div class="image">
-            <img src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" class="img-circle elevation-2" alt="User Image">
+            <img src="{{url_for('home_blueprint.image', nome_arquivo=imagemUser)}}" class="img-circle" alt="User Image" style="width: 55px; height: 50px;">
           </div> {{current_user.username}}</a>
         </div>
-        <div style="padding: 12px 3px 2px 0px;">
-          <a href="{{ url_for('authentication_blueprint.logout') }}" class="d-block">
+        <div>
+          <a href="{{ url_for('authentication_blueprint.logout') }}" class="d-block" style="padding-bottom: 5px;">
             - Logout
           </a>
         </div>
@@ -45,7 +44,7 @@
             <a href="/listaFormaPagamento" class="nav-link {% if '/listaFormaPagamento' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Lista Pagamento
+                Forma Pagamento
               </p>
             </a>
           </li>

@@ -32,87 +32,117 @@
     </section>
 
     <!-- Main content -->
-    <div class="container rounded bg-white mt-5 mb-5">
+    <section class="container rounded bg-white mt-5 mb-5">
         {% if perfil != None %}
-        <form method="POST" action="/editarPerfil">
-                <div class="row">
-                    <div class="col-md-4 border-right">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <div>
-                                <img class="rounded-circle mt-5" width="150px"
-                                 src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" />
-                                <!--<input type="file">-->
-                            </div>
+        <form action="/editarPerfil" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-md-4 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <label class="picture" for="picture__input" tabIndex="0">
+                            <figure>
+                                <figcaption>
+                                    <label>
+                                        <img class="rounded-circle mt-8 picture" style="width: 190px; height: 180px;"
+                                        src="{{url_for('home_blueprint.image', nome_arquivo=imagemUser)}}" />
+                                        <input type="file" name="picture__input"  id="picture__input" accept=".jpg" style="display:none" >
+                                    </label>
+                                </figcaption>
+                            </figure>
+                        </label>
+
+                        <span class="font-weight-bold"> {{perfil.nome}} {{perfil.sobrenome}}</span>
+                        <span class="text-black-50" >{{current_user.email}}</span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Configuração de Perfil</h4>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label class="labels">Nome</label>
+                            <input type="text" class="form-control" placeholder="Nome" value="{{perfil.nome}}" name="nome" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="labels">Sobrenome</label>
+                            <input type="text" class="form-control" value="{{perfil.sobrenome}}" name="sobrenome" />
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-12">
+                            <label class="labels">Numero de telefone</label>
+                            <input type="text" class="form-control" placeholder="ex: 34 99999-9999" value="{{perfil.numero_telefone}}" name="numeroTelefone" 
+                            id="telefone" maxlength="15"
+                            />
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Endereço</label>
+                            <input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="{{perfil.endereco}}" name="endereco"/>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">CEP</label>
+                            <input type="text" class="form-control" placeholder="CEP" value="{{perfil.cep}}" name="cep" id="cep" maxlength="9"/>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="labels">Email</label>
+                            <input type="text" class="form-control" placeholder="email" value="{{current_user.email}}" name="email"/>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label class="labels">Cidade</label>
+                            <input type="text" class="form-control" placeholder="Cidade" value="{{perfil.cidade}}" name="cidade" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="labels">Estado</label>
+                            <input type="text" class="form-control" value="{{perfil.uf}}" placeholder="Estado" name="estado" />
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <div class="btn btn-primary profile-button" data-toggle="modal" data-target="#confirm" >Salvar Dados</div>
+                        <div class="modal fade" id="confirm" role="dialog">
+                            <div class="modal-dialog modal-md">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <p>Deseja Fazer as alterações?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="col-4">
+                                            <button type="submit" class="btn btn-primary btn-block btn-success">Confirmar</button>
+                                        </div>
+                                        <div class="col-4">
+                                            <button type="button" class="btn btn-primary btn-block btn" data-dismiss="modal">Cancelar</button>
+                                        </div>
                             
-                            <span class="font-weight-bold"> {{perfil.nome}} {{perfil.sobrenome}}</span>
-                            <span class="text-black-50" >{{current_user.email}}</span>
-                            <span></span>
-                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <div>
                     </div>
-
-                    <div class="col-md-6 border-right">
-                        <div class="p-3 py-5">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="text-right">Configuração de Perfil</h4>
-                            </div>
-                        </div>
-
-                        <div class="row mt-2">
-                            <div class="col-md-6">
-                                <label class="labels">Nome</label>
-                                <input type="text" class="form-control" placeholder="Nome" value="{{perfil.nome}}" name="nome" />
-                            </div>
-
-                            <div class="col-md-6">
-                                <label class="labels">Sobrenome</label>
-                                <input type="text" class="form-control" value="{{perfil.sobrenome}}" placeholder="Sobrenome" name="sobrenome" />
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                <label class="labels">Numero de telefone</label>
-                                <input type="text" class="form-control" placeholder="ex: 34 99999-9999" value="{{perfil.numero_telefone}}" name="numeroTelefone" />
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">Endereço</label>
-                                <input type="text" class="form-control" placeholder="Ex: Rua Leopondina, 000" value="{{perfil.endereco}}" name="endereco"/>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">CEP</label>
-                                <input type="text" class="form-control" placeholder="CEP" value="{{perfil.cep}}" name="cep"/>
-                            </div>
-                            <div class="col-md-12">
-                                <label class="labels">Email</label>
-                                <input type="text" class="form-control" placeholder="email" value="{{current_user.email}}" name="email"/>
-                            </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <label class="labels">Cidade</label>
-                                <input type="text" class="form-control" placeholder="Cidade" value="{{perfil.cidade}}" name="cidade" />
-                            </div>
-                            <div class="col-md-6">
-                                <label class="labels">Estado</label>
-                                <input type="text" class="form-control" value="{{perfil.uf}}" placeholder="Estado" name="estado" />
-                            </div>
-                        </div>
-
-                        
-
-                        <div class="mt-4 text-center">
-                            <button  class="btn btn-primary profile-button" type="submit">Salvar Dados</button>
-                        </div>
-                    </div>
-                    
                 </div>
             </div>
         </form>
         {% endif %}
+    </section>
 
-                
+</div>
 
-    </div>
-</get>
 {% endblock %}
+
+{% block javascripts %}
+
+<!-- Para foto de ferfil -->
+<script src="/static/assets/js/pages/perfil.js"></script>
+<script src="/static/assets/js/pages/jquery.js"></script>
+<script src="/static/assets/js/pages/phone.js"></script>
+<script src="/static/assets/js/pages/cep.js"></script>
+{% endblock javascripts %}
